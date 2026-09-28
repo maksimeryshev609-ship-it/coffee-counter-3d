@@ -745,6 +745,60 @@
     body.theme-light input:checked + .slider:before {
       background-color: #fff;
     }
+
+    /* =============================================
+       MOVE MODE — Object drag UI
+    ============================================= */
+    #move-tooltip {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(229, 154, 76, 0.96);
+      color: #111215;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 20;
+      box-shadow: 0 6px 20px rgba(229,154,76,0.4);
+      display: none;
+      white-space: nowrap;
+      gap: 8px;
+      align-items: center;
+    }
+    #move-tooltip.visible {
+      display: flex;
+    }
+
+    #selected-label {
+      position: fixed;
+      bottom: 78px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(18, 20, 26, 0.88);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 20;
+      display: none;
+    }
+    #selected-label.visible {
+      display: block;
+    }
+
+    /* Move cursor when in move mode */
+    body.move-mode #canvas-container {
+      cursor: crosshair;
+    }
+    body.move-mode.dragging #canvas-container {
+      cursor: grabbing;
+    }
   </style>
 </head>
 <body>
@@ -774,6 +828,11 @@
       <button class="btn" id="btn-door-toggle" title="Открыть или закрыть дверцу бармена">
         <svg viewBox="0 0 24 24"><path d="M3 21h18M4 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M14 12v.01"/></svg>
         <span id="door-text">Дверца: Закрыта</span>
+      </button>
+
+      <button class="btn" id="btn-move-mode" title="Режим перемещения объектов — выберите объект и перетащите его">
+        <svg viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+        <span id="move-mode-text">✋ Переместить</span>
       </button>
 
       <button class="btn" id="btn-ultra-hd" title="Включить кинематографичный режим Ultra-HD">
@@ -1279,6 +1338,10 @@
       💡 Стойка занимает всю ширину помещения от левой глухой стены до скошенной правой стены (угол 45°). Дверца бармена находится прямо перед скосом.
     </div>
   </div>
+
+  <!-- Move Mode overlays -->
+  <div id="move-tooltip">✋ Выберите объект и перетащите его</div>
+  <div id="selected-label"></div>
 
   <!-- Toast message -->
   <div id="toast">
@@ -3359,6 +3422,184 @@
       showToast(isLight ? '☀️ Светлая тема интерфейса включена' : '🌙 Тёмная тема интерфейса включена');
     });
 
+    // ==========================================================
+    // INTERACTIVE OBJECT MOVE SYSTEM
+    // ==========================================================
+    const moveTooltip   = document.getElementById('move-tooltip');
+    const selectedLabel = document.getElementById('selected-label');
+    const btnMoveMode   = document.getElementById('btn-move-mode');
+    const moveModeText  = document.getElementById('move-mode-text');
+
+    let isMoveMode = false;
+    let selectedObject = null;      // the draggable THREE.Group
+    let isDragging = false;
+    let dragOffset = new THREE.Vector3();  // world-space offset from object origin
+
+    // Floor drag plane (Y = 0)
+    const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const raycaster = new THREE.Raycaster();
+    const mouseNDC = new THREE.Vector2();
+    const intersectPoint = new THREE.Vector3();
+
+    // Highlight: wireframe box overlay
+    const hlBox = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xe59a4c, wireframe: true, depthTest: false })
+    );
+    hlBox.name = '__highlight__';
+    hlBox.visible = false;
+    scene.add(hlBox);
+
+    // Human-readable names for the picker label
+    const objectLabels = {
+      espresso:       '☕ Кофемашина',
+      grinder:        '⚙️ Кофемолка',
+      syrups:         '🍬 Сиропы',
+      pos:            '📱 Касса (POS)',
+      cups:           '🍵 Стаканы',
+      fridge:         '🧊 Холодильник',
+      seating:        '🪑 Зона столиков',
+      plants:         '🌿 Растения',
+      menu:           '📋 Меню',
+      shelvesContainer: '🗂 Полки',
+    };
+
+    // Objects that can be dragged — top-level groups inside equipmentGroup
+    function getMovableObjects() {
+      const result = [];
+      equipmentGroup.traverse(child => {
+        if (child !== equipmentGroup && child.parent === equipmentGroup && child.isObject3D) {
+          result.push(child);
+        }
+      });
+      return result;
+    }
+
+    // Compute bounding box in world coords and update highlight mesh
+    function updateHighlight(obj) {
+      if (!obj) { hlBox.visible = false; return; }
+      const box = new THREE.Box3().setFromObject(obj);
+      box.expandByScalar(0.03);
+      const size   = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      hlBox.scale.copy(size);
+      hlBox.position.copy(center);
+      hlBox.visible = true;
+    }
+
+    // Snap to 5cm grid (optional refinement)
+    function snapToGrid(v, grid) {
+      return Math.round(v / grid) * grid;
+    }
+
+    // Get NDC mouse coords from event
+    function getNDC(e) {
+      const rect = renderer.domElement.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      mouseNDC.set(
+        ((clientX - rect.left) / rect.width)  * 2 - 1,
+        -((clientY - rect.top) / rect.height) * 2 + 1
+      );
+    }
+
+    // ---- TOGGLE MOVE MODE ----
+    btnMoveMode.addEventListener('click', () => {
+      isMoveMode = !isMoveMode;
+      btnMoveMode.classList.toggle('active', isMoveMode);
+      moveModeText.textContent = isMoveMode ? '✅ Выход из режима' : '✋ Переместить';
+      moveTooltip.classList.toggle('visible', isMoveMode);
+      document.body.classList.toggle('move-mode', isMoveMode);
+      controls.enabled = !isMoveMode;   // disable orbit while in move mode
+      if (!isMoveMode) {
+        selectedObject = null;
+        hlBox.visible = false;
+        selectedLabel.classList.remove('visible');
+      }
+      showToast(isMoveMode ? '✋ Режим перемещения включён — кликните объект и перетащите' : '🔒 Режим перемещения выключен');
+    });
+
+    // ---- POINTER DOWN — pick object or start drag ----
+    renderer.domElement.addEventListener('pointerdown', e => {
+      if (!isMoveMode) return;
+      e.preventDefault();
+      getNDC(e);
+      raycaster.setFromCamera(mouseNDC, camera);
+
+      // Cast against all meshes inside movable groups
+      const movable = getMovableObjects();
+      let allMeshes = [];
+      movable.forEach(g => {
+        g.traverse(c => { if (c.isMesh && c.name !== '__highlight__') allMeshes.push(c); });
+      });
+
+      const hits = raycaster.intersectObjects(allMeshes, false);
+      if (hits.length > 0) {
+        // Walk up to find the direct child of equipmentGroup
+        let hit = hits[0].object;
+        while (hit.parent && hit.parent !== equipmentGroup) hit = hit.parent;
+        selectedObject = hit;
+
+        // Compute drag offset on floor plane
+        raycaster.ray.intersectPlane(dragPlane, intersectPoint);
+        dragOffset.set(
+          selectedObject.position.x - intersectPoint.x,
+          0,
+          selectedObject.position.z - intersectPoint.z
+        );
+
+        isDragging = true;
+        controls.enabled = false;
+        document.body.classList.add('dragging');
+
+        // Show label
+        const lbl = objectLabels[selectedObject.name] || selectedObject.name || 'Объект';
+        selectedLabel.textContent = `${lbl} — тяните чтобы переместить`;
+        selectedLabel.classList.add('visible');
+
+        updateHighlight(selectedObject);
+        showToast(`Выбран: ${lbl}`);
+      } else {
+        // Clicked empty space — deselect
+        selectedObject = null;
+        hlBox.visible = false;
+        selectedLabel.classList.remove('visible');
+      }
+    });
+
+    // ---- POINTER MOVE — drag object ----
+    renderer.domElement.addEventListener('pointermove', e => {
+      if (!isMoveMode || !isDragging || !selectedObject) return;
+      e.preventDefault();
+      getNDC(e);
+      raycaster.setFromCamera(mouseNDC, camera);
+      if (raycaster.ray.intersectPlane(dragPlane, intersectPoint)) {
+        const nx = snapToGrid(intersectPoint.x + dragOffset.x, 0.05);
+        const nz = snapToGrid(intersectPoint.z + dragOffset.z, 0.05);
+        selectedObject.position.x = nx;
+        selectedObject.position.z = nz;
+        updateHighlight(selectedObject);
+      }
+    });
+
+    // ---- POINTER UP — end drag ----
+    renderer.domElement.addEventListener('pointerup', e => {
+      if (!isMoveMode) return;
+      if (isDragging) {
+        isDragging = false;
+        document.body.classList.remove('dragging');
+        controls.enabled = false; // keep orbit off while in move mode
+        if (selectedObject) {
+          const lbl = objectLabels[selectedObject.name] || selectedObject.name || 'Объект';
+          const px = Math.round(selectedObject.position.x * 1000);
+          const pz = Math.round(selectedObject.position.z * 1000);
+          showToast(`${lbl} перемещён → X ${px} мм, Z ${pz} мм`);
+        }
+      }
+    });
+
     // Resize handler
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -3372,6 +3613,11 @@
 
       if (window.doorPivot) {
         window.doorPivot.rotation.y += (doorTargetAngle - window.doorPivot.rotation.y) * 0.12;
+      }
+
+      // Keep highlight box synced with selected object
+      if (selectedObject && hlBox.visible) {
+        updateHighlight(selectedObject);
       }
 
       controls.update();
