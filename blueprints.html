@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Чертежи и Спецификация для распила | Стойка кофейни (МДФ 20 мм)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0b0f17;
+      --bg-card: #111827;
+      --bg-card-alt: #162032;
+      --border-color: #1f293d;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+      --grid-color: rgba(255, 255, 255, 0.05);
+      --hatch-color: rgba(245, 158, 11, 0.2);
+      --wall-color: #374151;
+      --floor-line: #4b5563;
+      --counter-fill: #1e293b;
+      --counter-stroke: #64748b;
+      --inner-stroke: #475569;
+      --top-fill: #b45309;
+      --plinth-fill: #0f172a;
+      --dim-color: #38bdf8;
+      --accent-fill: #d97706;
+      --accent-stroke: #fbbf24;
+      --equip-fill: #334155;
+      --equip-stroke: #94a3b8;
+      --door-fill: #292524;
+      --door-arc: #ec4899;
+      --door-track: #64748b;
+      --stamp-bg: #0f172a;
+      --zone-fill: #0ea5e9;
+    }
+
+    body.theme-blueprint {
+      --bg-main: #0a192f;
+      --bg-card: #0d223f;
+      --bg-card-alt: #112d55;
+      --border-color: #1e4976;
+      --text-main: #e2f1ff;
+      --text-muted: #88a9cf;
+      --accent: #64ffda;
+      --grid-color: rgba(100, 255, 218, 0.08);
+      --counter-fill: #0c2b50;
+      --counter-stroke: #64ffda;
+      --inner-stroke: #255a8e;
+      --top-fill: #194d80;
+      --dim-color: #64ffda;
+      --stamp-bg: #07182c;
+    }
+
+    body.theme-light {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f1f5f9;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #d97706;
+      --grid-color: rgba(0, 0, 0, 0.04);
+      --wall-color: #64748b;
+      --floor-line: #334155;
+      --counter-fill: #f8fafc;
+      --counter-stroke: #0f172a;
+      --inner-stroke: #64748b;
+      --top-fill: #e2e8f0;
+      --plinth-fill: #f1f5f9;
+      --dim-color: #0284c7;
+      --accent-fill: #fef3c7;
+      --accent-stroke: #d97706;
+      --equip-fill: #e2e8f0;
+      --equip-stroke: #475569;
+      --stamp-bg: #ffffff;
+      --zone-fill: #e0f2fe;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 80px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), #b45309);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #000;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    }
+    h1 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .header-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .badge-green {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    button, .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+    }
+    button:hover, .btn:hover {
+      background: var(--border-color);
+      border-color: var(--text-muted);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .metrics-bar {
+      max-width: 1300px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+    }
+    .metric-val {
+      font-size: 26px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+    .metric-lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tabs-nav {
+      max-width: 1300px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 0;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 24px auto 0;
+      padding: 0 24px;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .sheet-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .sheet-header {
+      padding: 16px 24px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sheet-body {
+      padding: 24px;
+      background: var(--bg-main);
+      overflow-x: auto;
+    }
+    .blueprint-svg {
+      width: 100%;
+      height: auto;
+      min-width: 900px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .stamp-lbl { font-size: 9px; fill: var(--text-muted); font-family: 'Inter', sans-serif; }
+    .stamp-val { font-size: 10px; fill: var(--text-main); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+    .stamp-title { font-size: 10px; fill: var(--accent); font-weight: 700; font-family: 'Inter', sans-serif; }
+    .wall-text { font-size: 12px; fill: #9ca3af; font-weight: 700; letter-spacing: 0.1em; }
+    .dim-text { font-size: 12px; fill: var(--dim-color); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .dim-total { font-size: 13px; fill: var(--accent); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .level-lbl { font-size: 12px; fill: var(--text-muted); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+    .equip-lbl { font-size: 11px; fill: #e2e8f0; font-weight: 600; }
+    .tag-red { font-size: 10px; fill: #ef4444; font-weight: 700; }
+    .tag-accent { font-size: 11px; fill: var(--accent); font-weight: 700; }
+    .door-text { font-size: 12px; fill: #f43f5e; font-weight: 700; }
+    .door-sub { font-size: 10px; fill: var(--text-muted); }
+    .zone-title { font-size: 16px; fill: #38bdf8; font-weight: 700; letter-spacing: 0.05em; }
+    .zone-dim { font-size: 12px; fill: #bae6fd; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+    .facade-title { font-size: 16px; fill: #f3f4f6; font-weight: 700; }
+    .facade-sub { font-size: 12px; fill: var(--text-muted); }
+    .plinth-text { font-size: 10px; fill: #94a3b8; font-weight: 600; }
+    .door-facade-text { font-size: 12px; fill: #f3f4f6; font-weight: 700; }
+    .door-facade-sub { font-size: 10px; fill: var(--accent); }
+    .door-facade-gap { font-size: 9px; fill: #94a3b8; }
+    .cell-text { font-size: 12px; fill: #e2e8f0; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .cell-sub { font-size: 10px; fill: var(--text-muted); }
+    .section-heading { font-size: 14px; fill: var(--accent); font-weight: 700; letter-spacing: 0.05em; }
+    .node-title { font-size: 12px; fill: var(--accent); font-weight: 700; }
+    .node-sub { font-size: 10px; fill: var(--text-muted); }
+    .angle-lbl { font-size: 11px; fill: var(--text-main); font-weight: 600; }
+    .angle-lbl-red { font-size: 11px; fill: #ef4444; font-weight: 700; }
+
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .table-toolbar {
+      padding: 16px 20px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: var(--text-main);
+      font-size: 13px;
+      width: 280px;
+    }
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      background: var(--bg-card-alt);
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+    }
+    .edge-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+      background: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      border-radius: 4px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .tech-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .tech-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tech-card ul {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .tech-card li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+    .tech-card li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+      header, .tabs-nav, .metrics-bar, .header-actions, .table-toolbar {
+        display: none !important;
+      }
+      .container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .tab-content {
+        display: block !important;
+      }
+      .sheet-card {
+        border: none !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        margin: 0 !important;
+      }
+      .sheet-header {
+        background: none !important;
+        border-bottom: 2px solid #000 !important;
+        padding: 8px 0 !important;
+      }
+      .sheet-body {
+        background: #fff !important;
+        padding: 0 !important;
+      }
+      .blueprint-svg {
+        width: 100% !important;
+        filter: invert(1) contrast(1.2);
+      }
+      table {
+        font-size: 11px !important;
+        color: #000 !important;
+      }
+      th, td {
+        border-color: #000 !important;
+        padding: 6px 8px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="header-logo">☕</div>
+      <div>
+        <h1>КОМПЛЕКТ ЧЕРТЕЖЕЙ И СПЕЦИФИКАЦИЯ ДЛЯ РАСПИЛА</h1>
+        <div class="header-sub">
+          <span>Стойка для кофейни</span>
+          <span class="badge">МДФ 20 мм</span>
+          <span class="badge badge-green">Готово к производству / ЕСКД</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button onclick="toggleTheme()" title="Переключить тему оформления">🌓 Тема</button>
+      <button onclick="exportCSV()" title="Скачать таблицу распила в формате CSV">📥 Экспорт CSV (Excel)</button>
+      <button onclick="window.print()" class="btn-primary" title="Распечатать или сохранить в PDF">🖨️ Печать / PDF</button>
+      <a href="https://maksimeryshev609-ship-it.github.io/coffee-counter-3d/" target="_blank" class="btn" title="Открыть интерактивную 3D-модель">🌐 3D Визуализатор</a>
+    </div>
+  </header>
+
+  <!-- METRICS -->
+  <div class="metrics-bar">
+    <div class="metric-card">
+      <div class="metric-lbl">Материал основы</div>
+      <div class="metric-val">МДФ 20 мм</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-lbl">Формат листа МДФ</div>
+      <div class="metric-val">2800 × 2070</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-lbl">Количество листов</div>
+      <div class="metric-val">7 шт.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-lbl">Общая площадь деталей</div>
+      <div class="metric-val">29.24 м²</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-lbl">Всего деталей в распиле</div>
+      <div class="metric-val">108 шт.</div>
+    </div>
+  </div>
+
+  <!-- TABS NAV -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('drawings')">📐 Чертежи и Проекции (6 листов)</button>
+    <button class="tab-btn" onclick="switchTab('specification')">📋 Спецификация для распила (45 позиций)</button>
+    <button class="tab-btn" onclick="switchTab('hardware')">🔩 Фурнитура и Крепеж (15 позиций)</button>
+    <button class="tab-btn" onclick="switchTab('tech')">🛠️ Технологические указания и Сборка</button>
+  </div>
+
+  <div class="container">
+
+    <!-- TAB 1: ЧЕРТЕЖИ И ПРОЕКЦИИ -->
+    <div id="tab-drawings" class="tab-content active">
+
+      <!-- ЛИСТ 1: ПЛАН СТОЙКИ -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 1: ПЛАН СТОЙКИ (ВИД СВЕРХУ) — М 1:20</div>
+          <span class="badge">Габариты 3450 × 1600 × 2300 мм</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 780" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid1" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="var(--dim-color)"/>
+    </marker>
+    <marker id="tick" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <line x1="1" y1="9" x2="9" y2="1" stroke="var(--dim-color)" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid1)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="730" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="710" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 640)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">ПЛАН СТОЙКИ (ВИД СВЕРХУ)</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 1</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <!-- СТЕНЫ -->
+  <g class="wall-group">
+    <line x1="80" y1="80" x2="80" y2="580" stroke="var(--wall-color)" stroke-width="12"/>
+    <line x1="75" y1="80" x2="720" y2="80" stroke="var(--wall-color)" stroke-width="12"/>
+    <line x1="975" y1="360" x2="1140" y2="525" stroke="var(--wall-color)" stroke-width="12"/>
+    <text x="1000" y="400" transform="rotate(45, 1000, 400)" class="wall-text">НАКЛОННАЯ СТЕНА (45°)</text>
+  </g>
+
+  <!-- ЗАДНЯЯ СЕКЦИЯ СИРОПОВ (2300 x 400 мм) -->
+  <g class="counter-body">
+    <rect x="120" y="140" width="460" height="80" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+    <line x1="120" y1="140" x2="120" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="196" y1="140" x2="196" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="272" y1="140" x2="272" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="348" y1="140" x2="348" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="424" y1="140" x2="424" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="500" y1="140" x2="500" y2="220" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="580" y1="140" x2="580" y2="220" stroke="var(--counter-stroke)" stroke-width="2"/>
+    
+    <rect x="220" y="145" width="240" height="24" fill="var(--accent-fill)" stroke="var(--accent-stroke)" stroke-width="1"/>
+    <rect x="220" y="169" width="240" height="24" fill="var(--accent-fill)" opacity="0.8" stroke="var(--accent-stroke)" stroke-width="1"/>
+    <rect x="220" y="193" width="240" height="23" fill="var(--accent-fill)" opacity="0.6" stroke="var(--accent-stroke)" stroke-width="1"/>
+    <text x="340" y="185" text-anchor="middle" class="item-lbl">СТУПЕНЧАТАЯ ГОРКА СИРОПОВ (8 БУТЫЛОК)</text>
+  </g>
+
+  <!-- БОКОВАЯ СЕКЦИЯ КОФЕМАШИНЫ (1600 x 400 мм) -->
+  <g class="counter-body">
+    <rect x="120" y="220" width="80" height="240" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+    <line x1="120" y1="280" x2="200" y2="280" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="120" y1="340" x2="200" y2="340" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="120" y1="400" x2="200" y2="400" stroke="var(--inner-stroke)" stroke-width="1"/>
+    
+    <rect x="125" y="240" width="70" height="110" fill="var(--equip-fill)" stroke="var(--equip-stroke)" stroke-width="1.5" rx="3"/>
+    <text x="160" y="295" text-anchor="middle" transform="rotate(-90, 160, 295)" class="equip-lbl">КОФЕМАШИНА (2 ГРУППЫ)</text>
+    <circle cx="160" cy="385" r="16" fill="var(--equip-fill)" stroke="var(--equip-stroke)" stroke-width="1.5"/>
+    <text x="160" y="420" text-anchor="middle" class="equip-lbl">КОФЕМОЛКА</text>
+    <circle cx="178" cy="250" r="6" fill="none" stroke="red" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <text x="188" y="245" class="tag-red">Ø60 выпил</text>
+  </g>
+
+  <!-- ЛИЦЕВАЯ СЕКЦИЯ ЗАКАЗА (2450 x 400 мм) -->
+  <g class="counter-body">
+    <rect x="120" y="460" width="490" height="80" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+    <line x1="197" y1="460" x2="197" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="274" y1="460" x2="274" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="351" y1="460" x2="351" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="428" y1="460" x2="428" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="505" y1="460" x2="505" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="582" y1="460" x2="582" y2="540" stroke="var(--inner-stroke)" stroke-width="1"/>
+    <line x1="610" y1="460" x2="610" y2="540" stroke="var(--counter-stroke)" stroke-width="2"/>
+    
+    <rect x="365" y="475" width="45" height="50" fill="var(--equip-fill)" stroke="var(--equip-stroke)" stroke-width="1.2" rx="2"/>
+    <text x="387" y="505" text-anchor="middle" class="equip-lbl">POS</text>
+    <rect x="440" y="480" width="35" height="40" fill="var(--equip-fill)" stroke="var(--equip-stroke)" stroke-width="1.2" rx="2"/>
+    <text x="457" y="505" text-anchor="middle" class="equip-lbl">КАССА</text>
+  </g>
+
+  <!-- ПРОХОД И ДВЕРЦА БАРМЕНА (600 x 400 мм) -->
+  <g class="door-group">
+    <rect x="610" y="460" width="120" height="80" fill="none" stroke="var(--door-track)" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="610" y1="538" x2="728" y2="538" stroke="var(--counter-stroke)" stroke-width="3"/>
+    <path d="M 728 538 A 118 118 0 0 0 610 420" fill="none" stroke="var(--door-arc)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <line x1="610" y1="538" x2="610" y2="420" stroke="var(--door-arc)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="670" y="500" text-anchor="middle" class="door-text">ДВЕРЦА 600 мм</text>
+    <text x="670" y="515" text-anchor="middle" class="door-sub">ОТКРЫВАНИЕ 90°-180°</text>
+  </g>
+
+  <!-- ПРИСТЕННЫЙ МОДУЛЬ СО СКОСОМ 45° -->
+  <g class="angled-counter">
+    <polygon points="730,460 770,460 810,500 810,540 730,540" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+    <line x1="770" y1="460" x2="810" y2="500" stroke="var(--accent-stroke)" stroke-width="2.5"/>
+    <text x="750" y="510" class="angle-lbl">400 мм</text>
+    <text x="775" y="475" class="angle-lbl-red">СКОС 45°</text>
+    <path d="M 800 470 L 970 370" fill="none" stroke="var(--accent-stroke)" stroke-width="1.2" stroke-dasharray="2,2"/>
+    <text x="890" y="410" class="tag-accent">ПРИМЫКАНИЕ ЗАПОДЛИЦО К СТЕНЕ</text>
+  </g>
+
+  <!-- ЗОНА БАРМЕНА -->
+  <g class="barista-zone">
+    <rect x="200" y="220" width="410" height="240" fill="var(--zone-fill)" opacity="0.3" stroke="none"/>
+    <text x="405" y="330" text-anchor="middle" class="zone-title">РАБОЧАЯ ЗОНА БАРИСТА</text>
+    <text x="405" y="355" text-anchor="middle" class="zone-dim">ЧИСТЫЙ ПРОХОД 800 мм × 2050 мм</text>
+  </g>
+
+  <!-- РАЗМЕРНЫЕ ЦЕПОЧКИ -->
+  <line x1="120" y1="570" x2="610" y2="570" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="120" y1="540" x2="120" y2="585" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="610" y1="540" x2="610" y2="585" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="365" y="565" text-anchor="middle" class="dim-text">2450</text>
+
+  <line x1="610" y1="570" x2="730" y2="570" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="730" y1="540" x2="730" y2="585" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="670" y="565" text-anchor="middle" class="dim-text">600</text>
+
+  <line x1="730" y1="570" x2="810" y2="570" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="810" y1="540" x2="810" y2="585" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="770" y="565" text-anchor="middle" class="dim-text">400</text>
+
+  <line x1="120" y1="605" x2="810" y2="605" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="120" y1="575" x2="120" y2="620" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="810" y1="575" x2="810" y2="620" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="465" y="600" text-anchor="middle" class="dim-total">ОБЩАЯ ШИРИНА СТОЙКИ 3450 мм (ВО ВСЮ ШИРИНУ ЗАЛА)</text>
+
+  <line x1="60" y1="140" x2="60" y2="220" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="120" y1="140" x2="45" y2="140" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="120" y1="220" x2="45" y2="220" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="50" y="185" text-anchor="middle" transform="rotate(-90, 50, 185)" class="dim-text">400</text>
+
+  <line x1="60" y1="220" x2="60" y2="460" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="120" y1="460" x2="45" y2="460" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="50" y="340" text-anchor="middle" transform="rotate(-90, 50, 340)" class="dim-text">ПРОХОД 800</text>
+
+  <line x1="60" y1="460" x2="60" y2="540" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick)" marker-end="url(#tick)"/>
+  <line x1="120" y1="540" x2="45" y2="540" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="50" y="505" text-anchor="middle" transform="rotate(-90, 50, 505)" class="dim-text">400</text>
+
+  <line x1="30" y1="220" x2="30" y2="540" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="120" y1="220" x2="20" y2="220" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="120" y1="540" x2="20" y2="540" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="20" y="380" text-anchor="middle" transform="rotate(-90, 20, 380)" class="dim-total">БОКОВОЙ ГАБАРИТ 1600 мм</text>
+
+  <line x1="120" y1="110" x2="580" y2="110" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <line x1="120" y1="140" x2="120" y2="95" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="580" y1="140" x2="580" y2="95" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="350" y="102" text-anchor="middle" class="dim-total">ДЛИНА ЗАДНЕЙ ЛИНИИ (СИРОПЫ) 2300 мм</text>
+</svg>
+
+        </div>
+      </div>
+
+      <!-- ЛИСТ 2: ГЛАВНЫЙ ФАСАД -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 2: ГЛАВНЫЙ ФАСАД (ВИД СПЕРЕДИ СО СТОРОНЫ ГОСТЕЙ) — М 1:20</div>
+          <span class="badge">Высота 1100 мм / Цоколь 80 мм / Дверца 600 мм / Скос 45°</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 560" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="var(--dim-color)"/>
+    </marker>
+    <marker id="tick2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <line x1="1" y1="9" x2="9" y2="1" stroke="var(--dim-color)" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid2)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="510" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="490" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 420)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">ГЛАВНЫЙ ФАСАД (ВИД СПЕРЕДИ)</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 2</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <line x1="50" y1="360" x2="800" y2="360" stroke="var(--floor-line)" stroke-width="3"/>
+  <text x="60" y="380" class="level-lbl">▼ УРОВЕНЬ ЧИСТОГО ПОЛА 0.000</text>
+
+  <!-- Цоколь -->
+  <rect x="100" y="344" width="690" height="16" fill="var(--plinth-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+  <text x="445" y="356" text-anchor="middle" class="plinth-text">ЦОКОЛЬ ВЫСОТА 80 мм (УТОПЛЕНИЕ 40 мм ДЛЯ НОГ ГОСТЕЙ)</text>
+
+  <!-- Фасад заказа -->
+  <rect x="100" y="148" width="490" height="196" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+  <text x="345" y="245" text-anchor="middle" class="facade-title">ЛИЦЕВОЙ ФАСАД ЗАКАЗА 2450 × 980 мм (МДФ 20 мм)</text>
+  <text x="345" y="270" text-anchor="middle" class="facade-sub">Матовый графит / Реечный дуб (Поз. 8)</text>
+
+  <!-- Дверца -->
+  <g class="door-facade">
+    <rect x="593" y="150" width="114" height="192" fill="var(--door-fill)" stroke="var(--counter-stroke)" stroke-width="2" rx="1"/>
+    <rect x="690" y="200" width="6" height="80" fill="var(--accent-stroke)" stroke="var(--accent-stroke)" rx="2"/>
+    <text x="650" y="245" text-anchor="middle" class="door-facade-text">ДВЕРЦА 600 мм</text>
+    <text x="650" y="265" text-anchor="middle" class="door-facade-sub">Ручка L=400</text>
+    <text x="650" y="285" text-anchor="middle" class="door-facade-gap">Зазор 3 мм</text>
+  </g>
+
+  <!-- Скошенная секция -->
+  <g class="angled-facade">
+    <rect x="710" y="148" width="80" height="196" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="2"/>
+    <line x1="785" y1="148" x2="790" y2="344" stroke="var(--accent-stroke)" stroke-width="2.5"/>
+    <text x="750" y="245" text-anchor="middle" class="facade-sub">СКОС 45°</text>
+    <text x="750" y="265" text-anchor="middle" class="facade-sub">400 мм</text>
+    <line x1="790" y1="130" x2="840" y2="370" stroke="var(--wall-color)" stroke-width="8"/>
+    <text x="805" y="125" class="tag-accent">СТЕНА (45°)</text>
+  </g>
+
+  <!-- Столешница -->
+  <rect x="96" y="140" width="498" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+  <rect x="593" y="140" width="114" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+  <rect x="710" y="140" width="80" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+  <text x="345" y="132" text-anchor="middle" class="tag-accent">СТОЛЕШНИЦА ДУБ 40 мм (СВЕС 20 мм)</text>
+
+  <!-- Высоты справа с идеальным разделением -->
+  <line x1="815" y1="140" x2="815" y2="148" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <text x="825" y="146" class="dim-text">40</text>
+  <line x1="815" y1="148" x2="815" y2="344" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <text x="825" y="250" class="dim-text">980 (ФАСАД)</text>
+  <line x1="815" y1="344" x2="815" y2="360" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <text x="825" y="355" class="dim-text">80 (ЦОКОЛЬ)</text>
+
+  <!-- Общая высота вынесена правее -->
+  <line x1="845" y1="140" x2="845" y2="360" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow2)" marker-end="url(#arrow2)"/>
+  <line x1="790" y1="140" x2="855" y2="140" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="790" y1="360" x2="855" y2="360" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="850" y="200" transform="rotate(90, 850, 200)" class="dim-total">1100 мм (ОБЩАЯ ВЫСОТА)</text>
+
+  <!-- Горизонтальные размеры снизу -->
+  <line x1="100" y1="390" x2="590" y2="390" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <line x1="100" y1="360" x2="100" y2="405" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="590" y1="360" x2="590" y2="405" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="345" y="385" text-anchor="middle" class="dim-text">2450</text>
+
+  <line x1="590" y1="390" x2="710" y2="390" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <line x1="710" y1="360" x2="710" y2="405" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="650" y="385" text-anchor="middle" class="dim-text">600</text>
+
+  <line x1="710" y1="390" x2="790" y2="390" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick2)" marker-end="url(#tick2)"/>
+  <line x1="790" y1="360" x2="790" y2="405" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="750" y="385" text-anchor="middle" class="dim-text">400</text>
+
+  <line x1="100" y1="425" x2="790" y2="425" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow2)" marker-end="url(#arrow2)"/>
+  <line x1="100" y1="395" x2="100" y2="440" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="790" y1="395" x2="790" y2="440" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="445" y="420" text-anchor="middle" class="dim-total">3450 мм (ОБЩИЙ ГАБАРИТ ЛИЦЕВОЙ ЛИНИИ)</text>
+</svg>
+
+        </div>
+      </div>
+
+      <!-- ЛИСТ 3: РАЗВЕРТКА ЯЧЕЕК БАРИСТА -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 3: ВИД СЗАДИ (РАБОЧАЯ ЗОНА БАРИСТА / ЯЧЕЙКИ И ПОЛКИ) — М 1:20</div>
+          <span class="badge">6 ячеек по 385 мм / Полки H=380 мм</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 640" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="var(--dim-color)"/>
+    </marker>
+    <marker id="tick3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <line x1="1" y1="9" x2="9" y2="1" stroke="var(--dim-color)" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid3)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="590" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="570" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 495)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">ВИД СЗАДИ (ЯЧЕЙКИ БАРИСТА)</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 3</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <line x1="50" y1="410" x2="880" y2="410" stroke="var(--floor-line)" stroke-width="3"/>
+  <text x="60" y="430" class="level-lbl">▼ УРОВЕНЬ ПОЛА 0.000</text>
+
+  <!-- Опоры регулируемые М10 под цоколем -->
+  <g class="legs-group">
+    <rect x="120" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="220" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="320" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="420" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="520" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="575" y="394" width="16" height="16" fill="var(--accent-stroke)" rx="2"/>
+    <text x="350" y="445" text-anchor="middle" class="item-lbl">РЕГУЛИРУЕМЫЕ ОПОРЫ M10 (H=80..100 мм, РЕГУЛИРОВКА ±15 мм)</text>
+  </g>
+
+  <!-- Дно -->
+  <rect x="100" y="390" width="490" height="4" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+
+  <!-- Боковины -->
+  <rect x="100" y="198" width="4" height="196" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+  <rect x="586" y="198" width="4" height="196" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+
+  <!-- Перегородки -->
+  <rect x="177" y="202" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)" stroke-width="1"/>
+  <rect x="258" y="202" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)" stroke-width="1"/>
+  <rect x="339" y="202" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)" stroke-width="1"/>
+  <rect x="420" y="202" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)" stroke-width="1"/>
+  <rect x="501" y="202" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)" stroke-width="1"/>
+
+  <!-- Полки средние -->
+  <rect x="104" y="314" width="73" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="181" y="314" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="262" y="314" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="343" y="314" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="424" y="314" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="505" y="314" width="81" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+  <!-- Полки верхние -->
+  <rect x="104" y="238" width="73" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="181" y="238" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="262" y="238" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="343" y="238" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="424" y="238" width="77" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+  <rect x="505" y="238" width="81" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+  <!-- Столешница 40 мм -->
+  <rect x="96" y="190" width="498" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+
+  <!-- Тексты ячеек -->
+  <text x="140" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="140" y="375" text-anchor="middle" class="cell-sub">Молоко/сырьё</text>
+  <text x="140" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="140" y="295" text-anchor="middle" class="cell-sub">Стаканы 250</text>
+  <text x="140" y="222" text-anchor="middle" class="cell-sub">Кассовая лента</text>
+
+  <text x="220" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="220" y="375" text-anchor="middle" class="cell-sub">Упаковка</text>
+  <text x="220" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="220" y="295" text-anchor="middle" class="cell-sub">Стаканы 350</text>
+  <text x="220" y="222" text-anchor="middle" class="cell-sub">Салфетки</text>
+
+  <text x="300" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="300" y="375" text-anchor="middle" class="cell-sub">Трубочки</text>
+  <text x="300" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="300" y="295" text-anchor="middle" class="cell-sub">Крышки 80/90</text>
+  <text x="300" y="222" text-anchor="middle" class="cell-sub">Сменная обувь</text>
+
+  <text x="380" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="380" y="375" text-anchor="middle" class="cell-sub">Денежн. ящик</text>
+  <text x="380" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="380" y="295" text-anchor="middle" class="cell-sub">POS-терминал</text>
+  <text x="380" y="222" text-anchor="middle" class="cell-sub">Инструкции</text>
+
+  <text x="460" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="460" y="375" text-anchor="middle" class="cell-sub">Чай / маття</text>
+  <text x="460" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="460" y="295" text-anchor="middle" class="cell-sub">Шоколад</text>
+  <text x="460" y="222" text-anchor="middle" class="cell-sub">Канцелярия</text>
+
+  <text x="545" y="360" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="545" y="375" text-anchor="middle" class="cell-sub">Фильтры/химия</text>
+  <text x="545" y="280" text-anchor="middle" class="cell-text">385×380</text>
+  <text x="545" y="295" text-anchor="middle" class="cell-sub">Зерно запас</text>
+  <text x="545" y="222" text-anchor="middle" class="cell-sub">Инвентарь</text>
+
+  <!-- Проход 600 мм и скос 400 мм -->
+  <g transform="translate(590, 0)">
+    <rect x="0" y="198" width="120" height="212" fill="none" stroke="var(--door-track)" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="60" y="300" text-anchor="middle" class="door-text">ПРОХОД 600 мм</text>
+    <text x="60" y="320" text-anchor="middle" class="door-sub">Откидная столешница</text>
+    <line x1="0" y1="190" x2="120" y2="190" stroke="var(--top-fill)" stroke-width="8" stroke-dasharray="5,2"/>
+
+    <rect x="120" y="198" width="80" height="196" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <rect x="120" y="314" width="70" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="120" y="238" width="70" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="120" y="190" width="80" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <text x="160" y="280" text-anchor="middle" class="cell-sub">СКОС 45°</text>
+    <text x="160" y="300" text-anchor="middle" class="cell-sub">Хранение</text>
+  </g>
+
+  <!-- Высоты слева -->
+  <line x1="80" y1="190" x2="80" y2="198" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="70" y="196" class="dim-text">40</text>
+
+  <line x1="80" y1="202" x2="80" y2="238" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="70" y="224" class="dim-text">160</text>
+
+  <line x1="80" y1="242" x2="80" y2="314" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="70" y="282" class="dim-text">380</text>
+
+  <line x1="80" y1="318" x2="80" y2="390" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="70" y="358" class="dim-text">380</text>
+
+  <line x1="80" y1="394" x2="80" y2="410" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="70" y="405" class="dim-text">80</text>
+
+  <line x1="40" y1="190" x2="40" y2="410" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow3)" marker-end="url(#arrow3)"/>
+  <line x1="100" y1="190" x2="30" y2="190" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <line x1="100" y1="410" x2="30" y2="410" stroke="var(--dim-color)" stroke-width="0.8"/>
+  <text x="30" y="305" text-anchor="middle" transform="rotate(-90, 30, 305)" class="dim-total">1100 мм</text>
+
+  <!-- Размеры по ширине ячеек (385 мм) опущены ниже -->
+  <line x1="104" y1="475" x2="177" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="140" y="470" text-anchor="middle" class="dim-text">385</text>
+  <line x1="181" y1="475" x2="258" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="220" y="470" text-anchor="middle" class="dim-text">385</text>
+  <line x1="262" y1="475" x2="339" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="300" y="470" text-anchor="middle" class="dim-text">385</text>
+  <line x1="343" y1="475" x2="420" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="380" y="470" text-anchor="middle" class="dim-text">385</text>
+  <line x1="424" y1="475" x2="501" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="460" y="470" text-anchor="middle" class="dim-text">385</text>
+  <line x1="505" y1="475" x2="582" y2="475" stroke="var(--dim-color)" stroke-width="1.2" marker-start="url(#tick3)" marker-end="url(#tick3)"/>
+  <text x="545" y="470" text-anchor="middle" class="dim-text">385</text>
+</svg>
+
+        </div>
+      </div>
+
+      <!-- ЛИСТ 4: БОКОВОЙ И ЗАДНИЙ МОДУЛИ -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 4: БОКОВАЯ СЕКЦИЯ КОФЕМАШИНЫ (1600 мм) И ЗАДНЯЯ СЕКЦИЯ СИРОПОВ (2300 мм) — М 1:20</div>
+          <span class="badge">Отверстия Ø60 мм / Ступенчатая горка</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 640" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid4" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arrow4" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="var(--dim-color)"/>
+    </marker>
+    <marker id="tick4" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <line x1="1" y1="9" x2="9" y2="1" stroke="var(--dim-color)" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid4)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="590" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="570" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 495)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">БОКОВАЯ И ЗАДНЯЯ ЛИНИИ</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 4</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <!-- БОКОВАЯ СЕКЦИЯ КОФЕМАШИНЫ (1600 мм) -->
+  <g transform="translate(60, 60)">
+    <text x="160" y="30" text-anchor="middle" class="section-heading">БОКОВОЙ МОДУЛЬ: КОФЕМАШИНА (1600 × 400 × 1100 мм)</text>
+    
+    <rect x="0" y="254" width="320" height="16" fill="var(--plinth-fill)" stroke="var(--counter-stroke)" stroke-width="1.2"/>
+    <rect x="0" y="250" width="320" height="4" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="-4" y="50" width="328" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <rect x="60" y="50" width="12" height="8" fill="red"/>
+    <text x="66" y="42" text-anchor="middle" class="tag-red">Ø60</text>
+
+    <rect x="0" y="58" width="4" height="192" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="316" y="58" width="4" height="192" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="79" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="158" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="237" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+    <rect x="4" y="154" width="75" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="83" y="154" width="75" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="162" y="154" width="75" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="241" y="154" width="75" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+    <text x="41" y="110" text-anchor="middle" class="cell-sub">Фильтр BWT</text>
+    <text x="41" y="210" text-anchor="middle" class="cell-sub">Слив 50 мм</text>
+    <text x="120" y="110" text-anchor="middle" class="cell-sub">Сила 380V</text>
+    <text x="120" y="210" text-anchor="middle" class="cell-sub">Помпа кофе</text>
+    <text x="200" y="110" text-anchor="middle" class="cell-sub">Питчеры</text>
+    <text x="200" y="210" text-anchor="middle" class="cell-sub">Химия/Cafiza</text>
+    <text x="279" y="110" text-anchor="middle" class="cell-sub">Темперы</text>
+    <text x="279" y="210" text-anchor="middle" class="cell-sub">Тряпки бариста</text>
+
+    <line x1="0" y1="285" x2="320" y2="285" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow4)" marker-end="url(#arrow4)"/>
+    <text x="160" y="280" text-anchor="middle" class="dim-text">1600 мм (4 отсека по 375 мм)</text>
+  </g>
+
+  <!-- ЗАДНЯЯ СЕКЦИЯ СИРОПОВ (2300 мм) -->
+  <g transform="translate(420, 60)">
+    <text x="230" y="30" text-anchor="middle" class="section-heading">ЗАДНИЙ МОДУЛЬ: СИРОПЫ И НАКОПИТЕЛЬ (2300 × 400 × 1100 мм)</text>
+
+    <rect x="100" y="10" width="240" height="12" fill="var(--accent-fill)" stroke="var(--accent-stroke)"/>
+    <rect x="100" y="22" width="240" height="14" fill="var(--accent-fill)" opacity="0.8" stroke="var(--accent-stroke)"/>
+    <rect x="100" y="36" width="240" height="14" fill="var(--accent-fill)" opacity="0.6" stroke="var(--accent-stroke)"/>
+    <text x="220" y="28" text-anchor="middle" class="item-lbl">НАСТОЛЬНАЯ ГОРКА ПОД СИРОПЫ (+60 / +120 / +180 мм)</text>
+
+    <rect x="0" y="254" width="460" height="16" fill="var(--plinth-fill)" stroke="var(--counter-stroke)" stroke-width="1.2"/>
+    <rect x="0" y="250" width="460" height="4" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="-4" y="50" width="468" height="8" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+
+    <rect x="0" y="58" width="4" height="192" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="456" y="58" width="4" height="192" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    
+    <rect x="76" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="152" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="228" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="304" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="380" y="62" width="4" height="188" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+    <rect x="4" y="154" width="72" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="80" y="154" width="72" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="156" y="154" width="72" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="232" y="154" width="72" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+    <rect x="308" y="154" width="72" height="4" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+
+    <text x="418" y="150" text-anchor="middle" transform="rotate(-90, 418, 150)" class="cell-sub">ВЫСОКИЙ ОТСЕК 260 мм (ИНВЕНТАРЬ)</text>
+
+    <text x="40" y="110" text-anchor="middle" class="cell-sub">Сиропы 1л</text>
+    <text x="40" y="210" text-anchor="middle" class="cell-sub">Запас сиропов</text>
+    <text x="116" y="110" text-anchor="middle" class="cell-sub">Топпинги</text>
+    <text x="116" y="210" text-anchor="middle" class="cell-sub">Пюре фрукты</text>
+    <text x="192" y="110" text-anchor="middle" class="cell-sub">Альтерн. молоко</text>
+    <text x="192" y="210" text-anchor="middle" class="cell-sub">Овсяное/Миндаль</text>
+    <text x="268" y="110" text-anchor="middle" class="cell-sub">Дрип-пакеты</text>
+    <text x="268" y="210" text-anchor="middle" class="cell-sub">Зерно пачки</text>
+    <text x="344" y="110" text-anchor="middle" class="cell-sub">Мерч / кружки</text>
+    <text x="344" y="210" text-anchor="middle" class="cell-sub">Запас упаковки</text>
+
+    <line x1="0" y1="285" x2="460" y2="285" stroke="var(--dim-color)" stroke-width="1.5" marker-start="url(#arrow4)" marker-end="url(#arrow4)"/>
+    <text x="230" y="280" text-anchor="middle" class="dim-text">2300 мм (5 отсеков по 380 мм + 1 отсек 260 мм)</text>
+  </g>
+</svg>
+
+        </div>
+      </div>
+
+      <!-- ЛИСТ 5: СЕЧЕНИЯ И УЗЛЫ -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 5: КОНСТРУКТИВНЫЕ УЗЛЫ, ПРИСАДКА И СЕЧЕНИЯ — М 1:5, 1:2</div>
+          <span class="badge">Сэндвич 40 мм / Спил 45° / Присадка Minifix и Конфирмат</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 640" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid5" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+    <marker id="arrow5" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="var(--dim-color)"/>
+    </marker>
+    <marker id="tick5" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <line x1="1" y1="9" x2="9" y2="1" stroke="var(--dim-color)" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid5)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="590" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="570" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 495)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">СЕЧЕНИЯ И КОНСТРУКТИВНЫЕ УЗЛЫ</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 5</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <!-- УЗЕЛ А -->
+  <g transform="translate(60, 60)">
+    <rect width="250" height="200" fill="none" stroke="var(--border-color)" stroke-width="1" rx="4"/>
+    <text x="125" y="24" text-anchor="middle" class="node-title">УЗЕЛ А: СТОЛЕШНИЦА (СЭНДВИЧ 40 мм)</text>
+    <rect x="30" y="60" width="180" height="24" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <rect x="30" y="84" width="180" height="24" fill="var(--top-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <rect x="26" y="60" width="4" height="48" fill="var(--accent-stroke)"/>
+    <rect x="60" y="108" width="24" height="70" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <text x="90" y="140" class="node-sub">Боковина 20 мм</text>
+    <text x="140" y="76" class="node-sub">Плита МДФ 20 мм</text>
+    <text x="140" y="100" class="node-sub">Плита МДФ 20 мм</text>
+    <line x1="26" y1="115" x2="60" y2="115" stroke="var(--dim-color)" stroke-width="1" marker-start="url(#tick5)" marker-end="url(#tick5)"/>
+    <text x="43" y="128" text-anchor="middle" class="dim-text">20</text>
+    <text x="10" y="88" class="tag-accent">АБС 2мм</text>
+  </g>
+
+  <!-- УЗЕЛ Б -->
+  <g transform="translate(340, 60)">
+    <rect width="250" height="200" fill="none" stroke="var(--border-color)" stroke-width="1" rx="4"/>
+    <text x="125" y="24" text-anchor="middle" class="node-title">УЗЕЛ Б: СПИЛ ТОРЦА ПОД 45° К СТЕНЕ</text>
+    <line x1="160" y1="45" x2="230" y2="185" stroke="var(--wall-color)" stroke-width="8"/>
+    <text x="210" y="100" transform="rotate(63, 210, 100)" class="wall-text">СТЕНА 45°</text>
+    <polygon points="40,80 160,80 200,160 40,160" fill="var(--counter-fill)" stroke="var(--counter-stroke)" stroke-width="1.5"/>
+    <line x1="160" y1="80" x2="200" y2="160" stroke="var(--accent-stroke)" stroke-width="2.5"/>
+    <text x="80" y="125" class="node-sub">МДФ 20 мм</text>
+    <text x="140" y="130" class="tag-red">УГОЛ 45°</text>
+    <text x="125" y="185" text-anchor="middle" class="node-sub">Запил на форматно-раскроечном станке</text>
+  </g>
+
+  <!-- УЗЕЛ В -->
+  <g transform="translate(620, 60)">
+    <rect width="250" height="200" fill="none" stroke="var(--border-color)" stroke-width="1" rx="4"/>
+    <text x="125" y="24" text-anchor="middle" class="node-title">УЗЕЛ В: ЦОКОЛЬ 80 мм И ОПОРА M10</text>
+    <line x1="20" y1="170" x2="230" y2="170" stroke="var(--floor-line)" stroke-width="2"/>
+    <rect x="40" y="70" width="180" height="18" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="140" y="88" width="16" height="70" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="130" y="158" width="36" height="12" fill="var(--accent-stroke)" rx="2"/>
+    <rect x="70" y="88" width="18" height="80" fill="var(--plinth-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="68" y="166" width="22" height="4" fill="cyan"/>
+    <text x="110" y="60" class="node-sub">Дно корпуса 20 мм</text>
+    <text x="165" y="125" class="node-sub">Опора H=80..100</text>
+    <text x="25" y="130" class="node-sub">Цоколь 80 мм</text>
+    <text x="125" y="190" text-anchor="middle" class="node-sub">Уплотнитель от влаги</text>
+  </g>
+
+  <!-- УЗЕЛ Г -->
+  <g transform="translate(60, 280)">
+    <rect width="380" height="200" fill="none" stroke="var(--border-color)" stroke-width="1" rx="4"/>
+    <text x="190" y="24" text-anchor="middle" class="node-title">УЗЕЛ Г: ОТКИДНАЯ СТОЛЕШНИЦА И ДВЕРЦА 600 мм</text>
+    <rect x="30" y="50" width="100" height="24" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="134" y="50" width="140" height="24" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <circle cx="132" cy="62" r="5" fill="var(--accent-stroke)"/>
+    <line x1="90" y1="130" x2="190" y2="76" stroke="var(--accent-stroke)" stroke-width="4"/>
+    <circle cx="90" cy="130" r="4" fill="red"/>
+    <circle cx="190" cy="76" r="4" fill="red"/>
+    <text x="75" y="42" class="node-sub">Основная стойка</text>
+    <text x="180" y="42" class="node-sub">Откидная часть (596 мм)</text>
+    <text x="160" y="120" class="tag-accent">Газлифт 60N-80N</text>
+    <text x="190" y="175" text-anchor="middle" class="node-sub">Скрытые барные петли + распашная дверца на 180°</text>
+  </g>
+
+  <!-- УЗЕЛ Д -->
+  <g transform="translate(460, 280)">
+    <rect width="380" height="200" fill="none" stroke="var(--border-color)" stroke-width="1" rx="4"/>
+    <text x="190" y="24" text-anchor="middle" class="node-title">УЗЕЛ Д: СХЕМА ПРИСАДКИ ПОД КОНФИРМАТ 7×50 И MINIFIX</text>
+    <rect x="50" y="50" width="20" height="130" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <rect x="70" y="90" width="160" height="20" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <line x1="30" y1="100" x2="130" y2="100" stroke="var(--accent-stroke)" stroke-width="3"/>
+    <circle cx="45" cy="100" r="4" fill="var(--accent-stroke)"/>
+    <rect x="60" y="70" width="30" height="8" fill="saddlebrown" rx="2"/>
+    <text x="120" y="68" class="node-sub">Шкант 8×35 мм (соосность)</text>
+    <text x="140" y="115" class="tag-accent">Конфирмат 7×50 мм</text>
+    <text x="190" y="145" class="node-sub">Стяжка Minifix (для невидимых зон)</text>
+    <text x="190" y="175" text-anchor="middle" class="node-sub">Отверстия: в пласть Ø8 мм / в торец Ø5 мм</text>
+  </g>
+</svg>
+
+        </div>
+      </div>
+
+      <!-- ЛИСТ 6: КАРТА РАСКРОЯ ПЛИТ -->
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div class="sheet-title">📄 ЛИСТ 6: КАРТА РАСКРОЯ И РАСКЛАДКА ДЕТАЛЕЙ НА 7 ПЛИТАХ МДФ (2800×2070×20 мм)</div>
+          <span class="badge">КИМ 84% / Технологический припуск</span>
+        </div>
+        <div class="sheet-body">
+          
+<svg viewBox="0 0 1250 680" class="blueprint-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid6" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--grid-color)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="var(--bg-card)" />
+  <rect width="100%" height="100%" fill="url(#grid6)" opacity="0.6" />
+
+  <rect x="25" y="25" width="1200" height="630" fill="none" stroke="var(--border-color)" stroke-width="2"/>
+  <rect x="35" y="35" width="1180" height="610" fill="none" stroke="var(--border-color)" stroke-width="1"/>
+
+  
+  <g transform="translate(860, 535)">
+    <rect width="350" height="95" fill="var(--stamp-bg)" stroke="var(--border-color)" stroke-width="1.5"/>
+    <line x1="0" y1="24" x2="350" y2="24" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="350" y2="48" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="0" y1="72" x2="350" y2="72" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="140" y1="0" x2="140" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    <line x1="250" y1="48" x2="250" y2="95" stroke="var(--border-color)" stroke-width="1"/>
+    
+    <text x="8" y="16" class="stamp-lbl">Разраб.</text>
+    <text x="48" y="16" class="stamp-val">Инженер-технолог</text>
+    <text x="148" y="16" class="stamp-title">СТОЙКА КОФЕЙНИ (МДФ 20 мм)</text>
+    
+    <text x="8" y="40" class="stamp-lbl">Материал</text>
+    <text x="48" y="40" class="stamp-val">МДФ 20 мм (7 листов)</text>
+    <text x="148" y="40" class="stamp-title">КАРТА РАСКРОЯ ПЛИТ (7 ЛИСТОВ)</text>
+    
+    <text x="8" y="64" class="stamp-lbl">Масштаб</text>
+    <text x="48" y="64" class="stamp-val">М 1:20</text>
+    <text x="148" y="64" class="stamp-lbl">Лист 6</text>
+    <text x="258" y="64" class="stamp-lbl">Листов 6</text>
+    
+    <text x="8" y="87" class="stamp-lbl">Цех</text>
+    <text x="48" y="87" class="stamp-val">Распил / ЧПУ</text>
+    <text x="148" y="87" class="stamp-lbl">Дата</text>
+    <text x="258" y="87" class="stamp-val">2026</text>
+  </g>
+  
+
+  <!-- 7 ЛИСТОВ МДФ 2800 x 2070 мм -->
+  <!-- Масштаб листа: 280 x 207 px (масштаб 1:10) -->
+
+  <!-- РЯД 1: Листы 1, 2, 3 -->
+  <!-- Лист 1: Фасады и днища -->
+  <g transform="translate(60, 60)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 1 / 7 (2800×2070)</text>
+    <!-- Детали -->
+    <rect x="10" y="26" width="220" height="88" fill="var(--counter-fill)" stroke="var(--accent-stroke)"/>
+    <text x="120" y="70" text-anchor="middle" class="cell-sub">Лицевой фасад 2450×980 (Поз. 8)</text>
+    <rect x="10" y="118" width="220" height="34" fill="var(--counter-fill)" stroke="var(--dim-color)"/>
+    <text x="120" y="140" text-anchor="middle" class="cell-sub">Дно заказа 2450×380 (Поз. 1)</text>
+    <rect x="10" y="156" width="220" height="8" fill="var(--plinth-fill)" stroke="var(--inner-stroke)"/>
+    <text x="120" y="163" text-anchor="middle" style="font-size:8px; fill:#9ca3af;">Цоколь 2450×80</text>
+  </g>
+
+  <!-- Лист 2: Задний фасад и дно -->
+  <g transform="translate(330, 60)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 2 / 7 (2800×2070)</text>
+    <rect x="10" y="26" width="206" height="88" fill="var(--counter-fill)" stroke="var(--accent-stroke)"/>
+    <text x="113" y="70" text-anchor="middle" class="cell-sub">Задний фасад 2300×980 (Поз. 33)</text>
+    <rect x="10" y="118" width="206" height="34" fill="var(--counter-fill)" stroke="var(--dim-color)"/>
+    <text x="113" y="140" text-anchor="middle" class="cell-sub">Дно заднее 2300×380 (Поз. 27)</text>
+    <rect x="10" y="156" width="206" height="8" fill="var(--plinth-fill)" stroke="var(--inner-stroke)"/>
+    <text x="113" y="163" text-anchor="middle" style="font-size:8px; fill:#9ca3af;">Цоколь 2300×80</text>
+  </g>
+
+  <!-- Лист 3: Столешницы (сэндвичи) -->
+  <g transform="translate(600, 60)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 3 / 7 (2800×2070)</text>
+    <rect x="10" y="26" width="220" height="38" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <text x="120" y="50" text-anchor="middle" class="cell-sub">Столешница заказ верх 2450×420</text>
+    <rect x="10" y="68" width="220" height="38" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <text x="120" y="92" text-anchor="middle" class="cell-sub">Столешница заказ низ 2450×420</text>
+    <rect x="10" y="110" width="206" height="38" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <text x="113" y="134" text-anchor="middle" class="cell-sub">Столешница сиропы верх 2300×420</text>
+  </g>
+
+  <!-- РЯД 2: Листы 4, 5, 6, 7 -->
+  <!-- Лист 4: Боковой фасад и столешницы кофе -->
+  <g transform="translate(60, 275)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 4 / 7 (2800×2070)</text>
+    <rect x="10" y="26" width="144" height="88" fill="var(--counter-fill)" stroke="var(--accent-stroke)"/>
+    <text x="82" y="70" text-anchor="middle" class="cell-sub">Боковой фасад 1600×980</text>
+    <rect x="160" y="26" width="53" height="88" fill="var(--door-fill)" stroke="var(--counter-stroke)"/>
+    <text x="186" y="70" text-anchor="middle" class="cell-sub">Дверца</text>
+    <rect x="10" y="118" width="144" height="38" fill="var(--top-fill)" stroke="var(--counter-stroke)"/>
+    <text x="82" y="140" text-anchor="middle" class="cell-sub">Столешница кофе 1600×420 (верх)</text>
+    <rect x="10" y="160" width="144" height="18" fill="var(--counter-fill)" stroke="var(--counter-stroke)"/>
+    <text x="82" y="172" text-anchor="middle" style="font-size:8px; fill:#9ca3af;">Дно кофе 1600×380</text>
+  </g>
+
+  <!-- Лист 5: Вертикальные стойки и боковины -->
+  <g transform="translate(330, 275)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 5 / 7 (2800×2070)</text>
+    <!-- Стойки 940x380 и 980x380 (всего 19 шт) -->
+    <g transform="translate(10, 26)">
+      
+        <rect x="0" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="17" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="38" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="55" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="76" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="93" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="114" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="131" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="152" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="169" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="190" y="0" width="34" height="88" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="207" y="48" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+      
+        <rect x="0" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="17" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="38" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="55" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="76" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="93" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="114" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="131" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="152" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="169" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+        <rect x="190" y="92" width="34" height="84" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <text x="207" y="136" text-anchor="middle" style="font-size:7px; fill:#94a3b8;">Стойка</text>
+      
+    </g>
+  </g>
+
+  <!-- Лист 6: Полки ячеек -->
+  <g transform="translate(600, 275)">
+    <rect width="250" height="185" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 6 / 7 (2800×2070)</text>
+    <!-- Полки 385x360, 380x360, 375x360 -->
+    <g transform="translate(10, 26)">
+      
+        <rect x="0" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="38" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="76" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="114" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="152" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="190" y="0" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+      
+        <rect x="0" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="38" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="76" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="114" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="152" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="190" y="36" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+      
+        <rect x="0" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="38" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="76" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="114" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="152" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="190" y="72" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+      
+        <rect x="0" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="38" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="76" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="114" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="152" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="190" y="108" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+      
+        <rect x="0" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="38" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="76" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="114" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="152" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="190" y="144" width="34" height="32" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+    </g>
+    <text x="125" y="100" text-anchor="middle" class="zone-title" style="font-size:12px; fill:var(--accent);">26 ГОРИЗОНТАЛЬНЫХ ПОЛОК</text>
+  </g>
+
+  <!-- Лист 7: Царги, скошенная секция, горка сиропов -->
+  <g transform="translate(60, 480)">
+    <rect width="780" height="150" fill="#0f172a" stroke="var(--border-color)" stroke-width="1.5"/>
+    <text x="10" y="18" class="tag-accent">ЛИСТ 7 / 7 (2800×2070) — ЦАРГИ, СКОС 45°, СТУПЕНЧАТАЯ ГОРКА СИРОПОВ</text>
+    <!-- Скос 400 мм -->
+    <polygon points="20,30 56,30 92,66 92,102 20,102" fill="var(--counter-fill)" stroke="var(--accent-stroke)"/>
+    <text x="45" y="65" class="cell-sub">Скос 45°</text>
+    <!-- Ступени сиропов -->
+    <rect x="110" y="30" width="108" height="12" fill="var(--accent-fill)" stroke="var(--accent-stroke)"/>
+    <rect x="110" y="46" width="108" height="12" fill="var(--accent-fill)" stroke="var(--accent-stroke)"/>
+    <rect x="110" y="62" width="108" height="12" fill="var(--accent-fill)" stroke="var(--accent-stroke)"/>
+    <text x="164" y="90" text-anchor="middle" class="cell-sub">Ступени горки 1200×120 (3 шт)</text>
+    <!-- Царги жесткости 40 шт -->
+    <g transform="translate(240, 30)">
+      
+        <rect x="0" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="0" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="0" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="36" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="36" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="36" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="72" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="72" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="72" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="108" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="108" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="108" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="144" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="144" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="144" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="180" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="180" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="180" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="216" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="216" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="216" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="252" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="252" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="252" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="288" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="288" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="288" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="324" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="324" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="324" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="360" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="360" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="360" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="396" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="396" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="396" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="432" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="432" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="432" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+        <rect x="468" y="0" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="468" y="14" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+        <rect x="468" y="28" width="32" height="10" fill="var(--counter-fill)" stroke="var(--inner-stroke)"/>
+      
+      <text x="250" y="60" text-anchor="middle" class="cell-sub">Царги жесткости под столешницы (всего 40 шт × 100 мм)</text>
+      <text x="250" y="80" text-anchor="middle" class="tag-accent">ТЕХНОЛОГИЧЕСКИЙ ОСТАТОК МДФ ~16% (ПРИПУСК НА ПРОПИЛЫ И ПРИСАДКУ)</text>
+    </g>
+  </g>
+</svg>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: СПЕЦИФИКАЦИЯ ДЛЯ РАСПИЛА -->
+    <div id="tab-specification" class="tab-content">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <input type="text" id="searchInput" class="search-box" placeholder="🔍 Поиск детали, модуля или размера..." onkeyup="filterTable()">
+          <div style="font-size: 13px; color: var(--text-muted);">
+            Обозначение кромки: <strong>L1 / L2 / W1 / W2</strong> (2 = АБС 2 мм, 1 = ПВХ 1 мм, 0 = без кромки)
+          </div>
+        </div>
+        <table id="partsTable">
+          <thead>
+            <tr>
+              <th>№ Поз.</th>
+              <th>Модуль стойки</th>
+              <th>Наименование детали</th>
+              <th>Длина (L), мм</th>
+              <th>Ширина (W), мм</th>
+              <th>Толщ., мм</th>
+              <th>Кол-во, шт</th>
+              <th>Кромка (L1/L2/W1/W2)</th>
+              <th>Технологические примечания</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td class="font-mono">1</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Дно основное</td>
+                <td class="font-mono">2450</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Базовый горизонт каркаса, присадка под стойки</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">2</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Боковина наружная левая</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Стыковка с боковым модулем под 90°, глухая</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">3</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Боковина внутренняя правая</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Опорная стойка проема дверцы бариста</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">4</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Перегородка вертикальная</td>
+                <td class="font-mono">940</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">5</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Внутренние стойки ячеек (чистый проем 385 мм)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">5</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Полка горизонтальная средняя</td>
+                <td class="font-mono">385</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">6</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Съемные на усиленных полкодержателях d=5 мм</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">6</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Полка горизонтальная верхняя</td>
+                <td class="font-mono">385</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">6</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Подстолье (кассовый ящик, терминал, чековая лента)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">7</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Царги верхние (ребра жесткости)</td>
+                <td class="font-mono">385</td>
+                <td class="font-mono">100</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">12</td>
+                <td><span class="edge-badge">0 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Связи каркаса под фиксацию столешницы</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">8</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Фасад лицевой декоративный</td>
+                <td class="font-mono">2450</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Лицевая контактная панель (черный мат / дуб)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">9</td>
+                <td><strong>Лицевой модуль (заказ)</strong></td>
+                <td>Цокольная планка лицевая</td>
+                <td class="font-mono">2450</td>
+                <td class="font-mono">80</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Утопление 40 мм, водоотталкивающий силиконовый уплотнитель</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">10</td>
+                <td><strong>Проход и дверца</strong></td>
+                <td>Полотно распашной дверцы</td>
+                <td class="font-mono">974</td>
+                <td class="font-mono">594</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Зазор по 3 мм по периметру, присадка под петли 180°</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">11</td>
+                <td><strong>Проход и дверца</strong></td>
+                <td>Притворная планка-упор</td>
+                <td class="font-mono">940</td>
+                <td class="font-mono">45</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Внутренний упор с магнитным/роликовым фиксатором</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">12</td>
+                <td><strong>Проход и дверца</strong></td>
+                <td>Откидная секция столешницы</td>
+                <td class="font-mono">596</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">40</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Склейка 20+20 мм, врезные барные петли Soss + газлифт</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">13</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Дно скошенное (трапеция)</td>
+                <td class="font-mono">400</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Правый торец запилен под углом 45° к стене</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">14</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Боковина левая (у дверцы)</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Опорная стойка проема дверцы бариста</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">15</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Боковина задняя пристенная</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Примыкание к глухой перегородке/стеклу</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">16</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Полка скошенная</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">2</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Правый торец срезан под 45°</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">17</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Фасад скошенный</td>
+                <td class="font-mono">400</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Правая кромка снята под 45° для идеального стыка со стеной</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">18</td>
+                <td><strong>Пристенный скос 45°</strong></td>
+                <td>Цоколь скошенный</td>
+                <td class="font-mono">400</td>
+                <td class="font-mono">80</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Торец срезан под 45°</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">19</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Дно боковое</td>
+                <td class="font-mono">1600</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Основание зоны кофемашины</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">20</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Боковина задняя левая</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Угловая стыковка с задней линией сиропов</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">21</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Перегородки внутренние</td>
+                <td class="font-mono">940</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">3</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Деление на 4 отсека по 375 мм в свету</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">22</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Полки средние</td>
+                <td class="font-mono">375</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">4</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Усиленные полки под посуду и питчеры</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">23</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Полки нижние</td>
+                <td class="font-mono">375</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">4</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Зона водоподготовки и фильтрации</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">24</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Царги усиленные</td>
+                <td class="font-mono">375</td>
+                <td class="font-mono">120</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">8</td>
+                <td><span class="edge-badge">0 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Усиление каркаса под тяжелую кофемашину (80 кг)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">25</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Фасад боковой наружный</td>
+                <td class="font-mono">1600</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Внешняя глухая декоративная панель</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">26</td>
+                <td><strong>Боковой модуль (кофе)</strong></td>
+                <td>Цоколь боковой</td>
+                <td class="font-mono">1600</td>
+                <td class="font-mono">80</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Опорная планка цоколя</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">27</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Дно заднее</td>
+                <td class="font-mono">2300</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Базовый горизонт задней линии</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">28</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Боковина наружная правая</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Торцевая видимая стойка стеллажа</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">29</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Перегородки вертикальные</td>
+                <td class="font-mono">940</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">5</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">5 отсеков по 380 мм + 1 высокий отсек 260 мм</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">30</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Полки стандартные (380 мм)</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">10</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Под запас сиропов, соков, растительного молока</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">31</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Полка узкая (260 мм)</td>
+                <td class="font-mono">260</td>
+                <td class="font-mono">360</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Верхняя полка узкого отсека</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">32</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Царги верхние</td>
+                <td class="font-mono">380</td>
+                <td class="font-mono">100</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">10</td>
+                <td><span class="edge-badge">0 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Связи под столешницу</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">33</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Фасад задний декоративный</td>
+                <td class="font-mono">2300</td>
+                <td class="font-mono">980</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Лицевая внешняя панель, видимая со входа</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">34</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Цоколь задний</td>
+                <td class="font-mono">2300</td>
+                <td class="font-mono">80</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">1 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Опорная планка цоколя</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">35</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Ступенька горки сиропов (низ)</td>
+                <td class="font-mono">1200</td>
+                <td class="font-mono">120</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Подставка под сиропы ярус 1 (H=60 мм)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">36</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Ступенька горки сиропов (середина)</td>
+                <td class="font-mono">1200</td>
+                <td class="font-mono">120</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Подставка под сиропы ярус 2 (H=120 мм)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">37</td>
+                <td><strong>Задний модуль (сиропы)</strong></td>
+                <td>Ступенька горки сиропов (верх)</td>
+                <td class="font-mono">1200</td>
+                <td class="font-mono">120</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 1 / 1</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Подставка под сиропы ярус 3 (H=180 мм)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">38</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница заказа (плита верх)</td>
+                <td class="font-mono">2450</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 1 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Верхний слой сэндвича, свес 20 мм спереди</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">39</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница заказа (плита низ / подклейка)</td>
+                <td class="font-mono">2450</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Нижний усиливающий слой сэндвича</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">40</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница скошенная (верх)</td>
+                <td class="font-mono">400</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 2 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Срез правого торца 45° к стене</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">41</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница скошенная (низ)</td>
+                <td class="font-mono">400</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Нижний слой со скосом 45°</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">42</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница боковая кофе (верх)</td>
+                <td class="font-mono">1600</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 1 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Отверстие d=60 мм под шланги и кабель</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">43</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница боковая кофе (низ)</td>
+                <td class="font-mono">1600</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Соосное отверстие d=60 мм</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">44</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница задняя сиропы (верх)</td>
+                <td class="font-mono">2300</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 1 / 2 / 2</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Рабочая поверхность накопителя</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">45</td>
+                <td><strong>Столешницы (40 мм)</strong></td>
+                <td>Столешница задняя сиропы (низ)</td>
+                <td class="font-mono">2300</td>
+                <td class="font-mono">420</td>
+                <td class="font-mono">20</td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1</td>
+                <td><span class="edge-badge">2 / 0 / 0 / 0</span></td>
+                <td style="color:var(--text-muted); font-size:12px;">Нижний слой сэндвича</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: ФУРНИТУРА И КРЕПЕЖ -->
+    <div id="tab-hardware" class="tab-content">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <div style="font-weight: 700; color: var(--accent);">ВЕДОМОСТЬ ФУРНИТУРЫ И МЕТИЗОВ</div>
+          <div style="font-size: 13px; color: var(--text-muted);">Расчёт под полную сборку на объекте</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Наименование фурнитуры / крепежа</th>
+              <th>Количество</th>
+              <th>Назначение и технологические указания</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td class="font-mono">1</td>
+                <td><strong>Евровинт (конфирмат) 7×50 мм с оцинковкой</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">180 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Основная силовая сборка каркасов шкафов</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">2</td>
+                <td><strong>Шкант деревянный рифленый (бук) 8×35 мм</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">120 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Соосность и предотвращение сдвига деталей</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">3</td>
+                <td><strong>Стяжка эксцентриковая Minifix / Rastex 15</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">48 компл.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Скрытое крепление лицевых панелей и полок</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">4</td>
+                <td><strong>Петля накладная с доводчиком (угол 180°)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">2 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Навеска распашной дверцы бариста</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">5</td>
+                <td><strong>Петли скрытые барные (Soss / шарнирные)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">2 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Навеска откидной столешницы прохода</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">6</td>
+                <td><strong>Газовый лифт / микролифт 60N-80N</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Плавное открытие и фиксация откидной столешницы</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">7</td>
+                <td><strong>Ручка-профиль вертикальная L=400 мм (черный мат / латунь)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Ручка распашной дверцы бариста</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">8</td>
+                <td><strong>Замок магнитный / роликовый фиксатор</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">1 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Надежная фиксация дверцы в закрытом положении</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">9</td>
+                <td><strong>Опора мебельная регулируемая M10 (H=80-100 мм)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">24 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Нивелирование неровностей пола кофейни</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">10</td>
+                <td><strong>Полкодержатель усиленный d=5 мм с фиксатором</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">64 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Установка съемных полок в отсеках</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">11</td>
+                <td><strong>Кабель-канал врезной круглый d=60 мм (черный металл)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">2 шт.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Вывод кабелей кофемашины, кассы и терминала</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">12</td>
+                <td><strong>Уплотнитель цоколя силиконовый прозрачный</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">7.5 п.м.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Защита торца МДФ от влаги при мытье полов</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">13</td>
+                <td><strong>Клей столярный водостойкий D3 / PUR для склейки МДФ</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">3.5 кг</td>
+                <td style="color:var(--text-muted); font-size:13px;">Склейка сэндвичей столешницы (20+20 мм)</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">14</td>
+                <td><strong>Кромка АБС 2.0 мм (лицевая контактная)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">48 п.м.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Кромление столешниц, фасадов, дверцы</td>
+              </tr>
+            
+              <tr>
+                <td class="font-mono">15</td>
+                <td><strong>Кромка ПВХ 0.8–1.0 мм (каркасная внутренняя)</strong></td>
+                <td class="font-mono" style="font-weight:700; color:var(--accent);">92 п.м.</td>
+                <td style="color:var(--text-muted); font-size:13px;">Кромление полок, боковин и перегородок</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 4: ТЕХНОЛОГИЧЕСКИЕ УКАЗАНИЯ -->
+    <div id="tab-tech" class="tab-content">
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-title">✂️ Раскрой и пиление МДФ 20 мм</div>
+          <ul>
+            <li>Раскрой производить на форматно-раскроечном станке с подрезным узлом для предотвращения сколов облицовки.</li>
+            <li>Ширина пропила основной пилы принята равной 3.2 мм.</li>
+            <li>Скос правого торца пристенного модуля (400 мм) запиливать под углом <strong>строго 45°</strong> с наклоном пильного узла.</li>
+            <li>Кромление деталей выполнять полиуретановым (PUR) клеем для 100% влагостойкости в условиях кофейни.</li>
+          </ul>
+        </div>
+        <div class="tech-card">
+          <div class="tech-title">🪚 Изготовление столешницы 40 мм</div>
+          <ul>
+            <li>Столешница изготавливается методом склейки двух плит МДФ 20 мм (сэндвич $20+20$ мм) столярным клеем D3/D4 под прессом или струбцинами.</li>
+            <li>Лицевой свес столешницы относительно каркаса составляет 20 мм.</li>
+            <li>Все внешние рабочие кромки оклеиваются ударопрочной кромкой АБС 2.0 мм с радиусной фрезеровкой R2 мм.</li>
+            <li>В боковой столешнице под кофемашину фрезеруется отверстие $\varnothing 60$ мм под шланги подвода воды, канализацию и кабель 380V.</li>
+          </ul>
+        </div>
+        <div class="tech-card">
+          <div class="tech-title">🔩 Схема присадки и сборки</div>
+          <ul>
+            <li>Основной силовой крепеж каркасов — евровинты (конфирматы) $7\times 50$ мм в комплекте с деревянными шкантами $8\times 35$ мм.</li>
+            <li>Присадка под конфирмат: глухое сверление в торец $\varnothing 5$ мм на глубину 40 мм, сквозное в пласть $\varnothing 8$ мм.</li>
+            <li>Лицевые декоративные панели крепятся скрытыми эксцентриковыми стяжками Minifix 15 для сохранения идеального внешнего вида.</li>
+            <li>Полки устанавливаются на усиленные полкодержатели $\varnothing 5$ мм с силиконовым фиксатором.</li>
+          </ul>
+        </div>
+        <div class="tech-card">
+          <div class="tech-title">🚪 Монтаж дверцы и цоколя</div>
+          <ul>
+            <li>Полотно распашной дверцы бариста ($594\times 974$ мм) навешивается на накладные петли с углом открывания $180^\circ$ с доводчиком.</li>
+            <li>Технологический зазор по периметру дверцы составляет 3 мм.</li>
+            <li>Откидная секция столешницы ($596\times 420$ мм) монтируется на скрытые барные шарнирные петли Soss и оснащается газовым амортизатором 60N-80N.</li>
+            <li>Цоколь высотой 80 мм утапливается на 40 мм относительно фасада. На нижнюю кромку устанавливается влагозащитный силиконовый уплотнитель.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      const content = document.getElementById('tab-' + tabId);
+      if (content) content.classList.add('active');
+    }
+
+    const themes = ['', 'theme-blueprint', 'theme-light'];
+    let currentThemeIdx = 0;
+    function toggleTheme() {
+      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+      document.body.className = themes[currentThemeIdx];
+    }
+
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#partsTable tbody tr');
+      rows.forEach(r => {
+        const text = r.innerText.toLowerCase();
+        r.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function exportCSV() {
+      const rows = document.querySelectorAll('#partsTable tr');
+      let csv = "\uFEFF"; // UTF-8 BOM for Excel
+      rows.forEach(r => {
+        const cols = r.querySelectorAll('th, td');
+        const rowData = [];
+        cols.forEach(c => {
+          let text = c.innerText.replace(/"/g, '""').trim();
+          rowData.push('"' + text + '"');
+        });
+        csv += rowData.join(';') + "\r\n";
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'Спецификация_раскроя_стойки_МДФ_20мм.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
