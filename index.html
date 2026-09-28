@@ -676,6 +676,75 @@
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 4px 14px rgba(0,0,0,0.3);
     }
+
+    /* =============================================
+       LIGHT THEME OVERRIDES
+       Applied when <body class="theme-light">
+    ============================================= */
+    body.theme-light {
+      --bg-dark: #f0f1f3;
+      --panel-bg: rgba(255, 255, 255, 0.88);
+      --panel-border: rgba(0, 0, 0, 0.12);
+      --panel-border-hover: rgba(0, 0, 0, 0.28);
+      --text: #1a1c20;
+      --text-muted: #6b737e;
+      background-color: var(--bg-dark);
+      color: var(--text);
+    }
+    body.theme-light .btn {
+      background: rgba(255, 255, 255, 0.88);
+      color: #1a1c20;
+    }
+    body.theme-light .btn:hover {
+      background: rgba(240, 241, 244, 0.98);
+    }
+    body.theme-light .btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    body.theme-light .sidebar {
+      background: rgba(255, 255, 255, 0.92);
+    }
+    body.theme-light .sidebar-tabs {
+      background: rgba(240, 241, 243, 0.8);
+    }
+    body.theme-light .tab-btn.active {
+      background: rgba(0, 0, 0, 0.10);
+      color: #1a1c20;
+    }
+    body.theme-light .preset-card {
+      background: rgba(0, 0, 0, 0.04);
+    }
+    body.theme-light .preset-card:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+    body.theme-light .control-group {
+      background: rgba(0, 0, 0, 0.06);
+    }
+    body.theme-light .bottom-toolbar {
+      background: rgba(255, 255, 255, 0.90);
+    }
+    body.theme-light .specs-panel {
+      background: rgba(255, 255, 255, 0.92);
+    }
+    body.theme-light select {
+      background: rgba(240, 241, 244, 0.98);
+      color: #1a1c20;
+    }
+    body.theme-light #toast {
+      background: rgba(255, 255, 255, 0.95);
+      color: #1a1c20;
+    }
+    body.theme-light .interaction-hint {
+      background: rgba(255, 255, 255, 0.82);
+      color: #6b737e;
+    }
+    body.theme-light .slider {
+      background-color: rgba(0, 0, 0, 0.18);
+    }
+    body.theme-light input:checked + .slider:before {
+      background-color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -721,6 +790,11 @@
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
         <span>📐 Чертежи и распил</span>
       </a>
+
+      <button class="btn" id="btn-theme-toggle" title="Переключить тёмную / светлую тему интерфейса">
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span id="theme-text">🌙 Тёмная тема</span>
+      </button>
 
       <button class="btn" id="btn-screenshot" title="Сохранить фото в PNG">
         <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
@@ -1350,34 +1424,39 @@
     }
 
     function createProceduralFloorTiles() {
+      // Light-grey 400×400 mm porcelain tiles with 3mm grout lines
+      const tileSize = 256; // px per tile in the canvas
       const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 512;
+      canvas.width = tileSize;
+      canvas.height = tileSize;
       const ctx = canvas.getContext('2d');
 
-      ctx.fillStyle = '#e4e2db';
-      ctx.fillRect(0, 0, 512, 512);
+      // Tile body — light grey with slight variation
+      const baseGrey = 200;
+      ctx.fillStyle = `rgb(${baseGrey},${baseGrey},${baseGrey + 4})`;
+      ctx.fillRect(0, 0, tileSize, tileSize);
 
-      // Warm architectural terrazzo & stone flecks
-      for (let i = 0; i < 25000; i++) {
-        const x = Math.random() * 512;
-        const y = Math.random() * 512;
-        const tone = Math.random();
-        ctx.fillStyle = tone > 0.65 ? 'rgba(255,255,255,0.5)' : (tone > 0.25 ? 'rgba(125,120,112,0.18)' : 'rgba(75,70,64,0.22)');
-        ctx.fillRect(x, y, Math.random() * 2 + 1, Math.random() * 2 + 1);
+      // Subtle surface variation (porcelain micro-texture)
+      for (let i = 0; i < 4000; i++) {
+        const x = Math.random() * tileSize;
+        const y = Math.random() * tileSize;
+        const v = Math.floor(Math.random() * 20 - 10);
+        const c = Math.min(255, Math.max(170, baseGrey + v));
+        ctx.fillStyle = `rgba(${c},${c},${c},0.45)`;
+        ctx.fillRect(x, y, Math.random() * 3 + 1, Math.random() * 3 + 1);
       }
 
-      ctx.strokeStyle = '#b5b2a9';
-      ctx.lineWidth = 2.5;
-      ctx.strokeRect(0, 0, 256, 256);
-      ctx.strokeRect(256, 0, 256, 256);
-      ctx.strokeRect(0, 256, 256, 256);
-      ctx.strokeRect(256, 256, 256, 256);
+      // Grout lines — slightly darker grey, 3px wide around tile edges
+      ctx.strokeStyle = '#aaaaaa';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(1.5, 1.5, tileSize - 3, tileSize - 3);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(6, 14);
+      // 1 world unit = 1 m; tile = 0.4 m → repeat = 1/0.4 = 2.5 per metre
+      // Floor is 4.0 × 9.5 m → repeat (10, 23.75)
+      texture.repeat.set(10, 24);
       return texture;
     }
 
@@ -1812,27 +1891,69 @@
       const shelfThick = 0.018;
       const depth = 0.36;
       const plinthHeight = 0.08;
+      const fridgeWidth = 0.40; // first 400mm slot reserved for fridge
 
       const yBottom = plinthHeight + 0.40;
       const yMiddle = yBottom + 0.40;
 
-      // Front inner shelving (X: 0 to 2.45)
+      // --- MINI BAR FRIDGE in first compartment (X: 0 to 0.40) ---
+      const darkMetalMat = new THREE.MeshStandardMaterial({ color: 0x2a2d32, roughness: 0.45, metalness: 0.65 });
+      const chromeMat2 = new THREE.MeshStandardMaterial({ color: 0xb0b8c1, roughness: 0.25, metalness: 0.85 });
+      const fridgeInner = new THREE.Group();
+      // Fridge body
+      const fridgeBodyMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(fridgeWidth - 0.025, 0.82, depth - 0.02),
+        darkMetalMat
+      );
+      fridgeBodyMesh.position.set(fridgeWidth / 2, plinthHeight + 0.82 / 2, -0.2 - depth / 2);
+      fridgeBodyMesh.castShadow = true;
+      fridgeInner.add(fridgeBodyMesh);
+      // Fridge door face panel (slightly lighter)
+      const fridgeFaceMat = new THREE.MeshStandardMaterial({ color: 0x383c42, roughness: 0.35, metalness: 0.55 });
+      const fridgeFaceMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(fridgeWidth - 0.03, 0.80, 0.018),
+        fridgeFaceMat
+      );
+      fridgeFaceMesh.position.set(fridgeWidth / 2, plinthHeight + 0.82 / 2, -0.2 + 0.009);
+      fridgeInner.add(fridgeFaceMesh);
+      // Horizontal seam line
+      const seamMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(fridgeWidth - 0.03, 0.005, 0.022),
+        chromeMat2
+      );
+      seamMesh.position.set(fridgeWidth / 2, plinthHeight + 0.27, -0.2 + 0.011);
+      fridgeInner.add(seamMesh);
+      // Door handle (horizontal bar)
+      const handleBarMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(fridgeWidth - 0.14, 0.012, 0.03),
+        chromeMat2
+      );
+      handleBarMesh.position.set(fridgeWidth / 2, plinthHeight + 0.60, -0.2 + 0.026);
+      fridgeInner.add(handleBarMesh);
+      // Blue LED strip inside (glow effect via PointLight)
+      const fridgeGlow = new THREE.PointLight(0x80c4ff, 0.3, 0.5);
+      fridgeGlow.position.set(fridgeWidth / 2, plinthHeight + 0.41, -0.2 - depth / 4);
+      fridgeInner.add(fridgeGlow);
+      shelvesContainer.add(fridgeInner);
+
+      // Front inner shelving (X: fridgeWidth to 2.45 — skipping first fridge slot)
+      const shelfW = 2.45 - fridgeWidth - 0.025;
       for (let y of [yBottom, yMiddle]) {
         const board = new THREE.Mesh(
-          new THREE.BoxGeometry(2.45 - 0.05, shelfThick, depth),
+          new THREE.BoxGeometry(shelfW, shelfThick, depth),
           shelfMaterial
         );
-        board.position.set((2.45 - 0.05) / 2 + 0.025, y, -0.2 - 0.01);
+        board.position.set(fridgeWidth + shelfW / 2 + 0.012, y, -0.2 - 0.01);
         board.castShadow = true;
         board.receiveShadow = true;
         shelvesContainer.add(board);
       }
 
       const frontCellWidth = 0.40;
-      const frontCells = Math.floor(2.45 / frontCellWidth);
+      const frontCells = Math.floor((2.45 - fridgeWidth) / frontCellWidth);
       for (let i = 1; i <= frontCells; i++) {
-        const x = i * frontCellWidth;
-        if (x < 2.4) {
+        const x = fridgeWidth + i * frontCellWidth;
+        if (x < 2.42) {
           const divider = new THREE.Mesh(
             new THREE.BoxGeometry(shelfThick, 1.1 - plinthHeight - 0.04, depth),
             shelfMaterial
@@ -1844,7 +1965,7 @@
         }
       }
 
-      // Back inner shelving (X: 0 to 2.3)
+      // Back inner shelving (X: 0 to 2.3) — unchanged
       for (let y of [yBottom, yMiddle]) {
         const board = new THREE.Mesh(
           new THREE.BoxGeometry(2.3 - 0.05, shelfThick, depth),
@@ -2927,14 +3048,14 @@
       btnDimToggle.classList.toggle('active', dimensionsGroup.visible);
     });
 
-    // Barista Door Open/Close Animation
+    // Barista Door Open/Close Animation (door swings OUTWARD toward guests)
     let isDoorOpen = false;
     let doorTargetAngle = 0;
     const btnDoorToggle = document.getElementById('btn-door-toggle');
     const doorText = document.getElementById('door-text');
     btnDoorToggle.addEventListener('click', () => {
       isDoorOpen = !isDoorOpen;
-      doorTargetAngle = isDoorOpen ? Math.PI / 2 : 0;
+      doorTargetAngle = isDoorOpen ? -Math.PI / 2 : 0;  // negative = outward
       doorText.innerText = isDoorOpen ? 'Дверца: Открыта' : 'Дверца: Закрыта';
       btnDoorToggle.classList.toggle('active', isDoorOpen);
     });
@@ -3226,6 +3347,16 @@
       link.click();
 
       showToast('Рендер стойки сохранен в файл PNG!');
+    });
+
+    // Light / Dark Theme Toggle
+    const btnTheme = document.getElementById('btn-theme-toggle');
+    const themeText = document.getElementById('theme-text');
+    btnTheme.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('theme-light');
+      themeText.innerText = isLight ? '☀️ Светлая тема' : '🌙 Тёмная тема';
+      btnTheme.classList.toggle('active', isLight);
+      showToast(isLight ? '☀️ Светлая тема интерфейса включена' : '🌙 Тёмная тема интерфейса включена');
     });
 
     // Resize handler
